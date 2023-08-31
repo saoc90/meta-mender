@@ -215,6 +215,7 @@ MENDER_CONFIGURATION_VARS ?= "\
     RootfsPartB \
     InventoryPollIntervalSeconds \
     RetryPollIntervalSeconds \
+    RetryPollIntervalCount \
     ArtifactVerifyKey \
     ServerCertificate \
     ServerURL \

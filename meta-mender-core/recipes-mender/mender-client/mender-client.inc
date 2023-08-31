@@ -22,6 +22,7 @@ SYSTEMD_AUTO_ENABLE ?= "enable"
 MENDER_UPDATE_POLL_INTERVAL_SECONDS ?= "1800"
 MENDER_INVENTORY_POLL_INTERVAL_SECONDS ?= "28800"
 MENDER_RETRY_POLL_INTERVAL_SECONDS ?= "300"
+MENDER_RETRY_POLL_COUNT ?= "0"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
@@ -219,6 +220,9 @@ python do_prepare_mender_conf() {
     # Tenant-token is optional, but falls back to a default-value set in config.go
     conf_maybe_add("TenantToken", "MENDER_TENANT_TOKEN", getvar=True, integer=False)
 
+    # Retry poll count is optional, but fails back to the default when set to 0
+    conf_maybe_add("RetryPollCount", "MENDER_RETRY_POLL_COUNT", getvar=True, integer=True)
+
     # Add the update control configurations if set
     conf_maybe_add("UpdateControlMapExpirationTimeSeconds", "MENDER_UPDATE_CONTROL_MAP_EXPIRATION_TIME_SECONDS", getvar=True, integer=True)
     conf_maybe_add("UpdateControlMapBootExpirationTimeSeconds", "MENDER_UPDATE_CONTROL_MAP_BOOT_EXPIRATION_TIME_SECONDS", getvar=True, integer=True)
@@ -255,6 +259,7 @@ do_prepare_mender_conf[vardeps] = " \
     MENDER_ARTIFACT_VERIFY_KEY \
     MENDER_INVENTORY_POLL_INTERVAL_SECONDS \
     MENDER_RETRY_POLL_INTERVAL_SECONDS \
+    MENDER_RETRY_POLL_COUNT \
     MENDER_ROOTFS_PART_A \
     MENDER_ROOTFS_PART_B \
     MENDER_SERVER_URL \
